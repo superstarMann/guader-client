@@ -1,3 +1,4 @@
 1. npm i apollo 
 2. npm i styled-component styled-reset
-3.
+3. globaltypes.ts = export{} //오류있을시 적용
+4. apollo:codegen 사용시 버그가 있으면 무조건 node@14.x.x+ graphql@15.4.0로 맞추기 
