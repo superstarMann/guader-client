@@ -1,9 +1,21 @@
-import { ApolloClient, InMemoryCache, makeVar } from "@apollo/client";
+import { ApolloClient, createHttpLink, InMemoryCache, makeVar } from "@apollo/client";
+import {setContext} from '@apollo/client/link/context'
 
-export const isLoggedInVar = makeVar(Boolean(localStorage.getItem("x-jwt")))
+export const isLoggedInVar = makeVar(Boolean(localStorage.getItem("jwt")))
+
+const httpLink = createHttpLink({
+  uri: "http://localhost:5000/graphql",
+})
+
+const authLink = setContext((_, {headers}) => {
+  return {
+    ...headers,
+    "x-jwt": localStorage.getItem("jwt")
+  }
+})
 
 const client = new ApolloClient({
-    uri: "http://localhost:4000/graphql",
+    link: authLink.concat(httpLink),
     cache: new InMemoryCache()
 });
 

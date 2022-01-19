@@ -1,4 +1,5 @@
 import React from 'react'
+import { HelmetProvider } from 'react-helmet-async'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 import { GlobalStyles } from '../globalStyles'
@@ -13,6 +14,7 @@ import theme from '../theme'
 
 export const IsLoggedInRoutes = () => {
     return(
+        <HelmetProvider>
         <ThemeProvider theme={theme}>
             <GlobalStyles/>
         <BrowserRouter>
@@ -28,6 +30,7 @@ export const IsLoggedInRoutes = () => {
          </Routes>
         </BrowserRouter>
         </ThemeProvider>
+        </HelmetProvider>
     )
 }
 
