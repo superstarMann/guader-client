@@ -7,7 +7,6 @@ query ExampleQuery {
     ok
   }
 }
-
 `;
 
 export const AddPlace = () => <span>AddPlace</span>

@@ -1,7 +1,10 @@
 import React from 'react';
+import { DefaultTheme } from 'styled-components';
 
-const theme = {
-    blueColors: "#34d8db"
+const theme:DefaultTheme = {
+    colors: {
+        blueColor: "#3498db",
+    }
 } 
 
 export default theme
