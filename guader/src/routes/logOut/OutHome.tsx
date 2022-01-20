@@ -6,11 +6,11 @@ import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { EmailSignInMutation, EmailSignInMutationVariables } from '../../__generated__/EmailSignInMutation';
 
-const Container = styled.div`
+export const Container = styled.div`
  height: 100vh;
 `;
 
-const Header = styled.header`
+export const Header = styled.header`
  height: 100%;
  display: flex;
  align-items: center;
@@ -22,9 +22,9 @@ const Header = styled.header`
     }
 `
 
-const PhoneLogin = styled.div`
+export const Contents = styled.div`
   padding: 20px;
-  width: 40%;
+  width: 100%;
   margin: auto;
   @media screen and (max-width: 32rem) {
       width: 100%;
@@ -33,10 +33,13 @@ const PhoneLogin = styled.div`
   }
 `;
 
-const SubTitle = styled.h2`
+export const SubTitle = styled.h2`
+ font-weight: 300;
+ text-align: center;
  font-size: 1.875rem;
  line-height: 2.25rem;
  margin: auto;
+ padding-bottom: 10px;
  @media screen and (max-width: 32rem){
     font-size: 1.5rem;
     line-height: 2rem;
@@ -53,12 +56,23 @@ const SocialLogin = styled.div`
 const SocialLink = styled.span`
  color: ${props => props.theme.colors.blueColor};
  font-size: 20px;
+ &:hover{
+    text-decoration: underline;
+ }
+`
+
+export const Main = styled.div`
+ width: 30%;
+ margin: 0px auto;
+ @media screen and (max-width: 32rem){
+     width: 100%;
+ }
 `
 
 const LoginForm = styled.form`
  display: flex;
  flex-direction: column;
- padding-top: 40px;
+ padding-top: 25px;
  @media screen and (max-width: 32rem){
      padding-top: 20px;
  }
@@ -67,8 +81,8 @@ const LoginForm = styled.form`
 const LoginInput = styled.input`
  border: none;
  margin-bottom: 10px;
- padding: 10px;
- border-radius: 0.5rem;
+ padding: 7px 10px;
+ border-radius: 0.375rem;
  box-sizing: border-box;
  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
  &:focus{
@@ -81,8 +95,14 @@ const LoginInput = styled.input`
 
 const CreateAccount = styled.div`
  margin: 20px 0px;
- opacity: 0.5;
+ display: flex;
+ flex-direction: column;
+ width: 100%;
+ opacity: 0.7;
  cursor: pointer;
+ &:hover{
+    text-decoration: underline;
+ }
 `
 
 const LogInBtn = styled.button`
@@ -95,6 +115,9 @@ const LogInBtn = styled.button`
  color: white;
  font-size: 1rem;
  line-height: 1.5rem;
+ &:hover{
+     opacity: 0.7;
+ }
 `
 
 const EMAIL_SIGN_IN_MUTATION = gql`
@@ -133,8 +156,9 @@ export const OutHome = () => {
     <Container>
         <Header>
             <Helmet><title>Login | Guader</title></Helmet>
-            <PhoneLogin>
-                <SubTitle>Welcome to the Guader</SubTitle>
+            <Contents>
+                    <SubTitle>Welcome to the Guader</SubTitle>
+                    <Main>
                     <LoginForm onSubmit={handleSubmit(onSubmit)}>
                         <LoginInput 
                         {...register("email", {required: `Email is Required`})} 
@@ -150,14 +174,15 @@ export const OutHome = () => {
                     <Link to={"/phone-login"}>
                     <CreateAccount>create an account &rarr;</CreateAccount>
                     </Link>
-                <Link to={"/phone-login"}>
+                <Link to={"/social-login"}>
                     <SocialLogin>
                         <SocialLink>
-                        Or connect with FaceBook &rarr;
+                        connect with Social Media &rarr;
                         </SocialLink>
                     </SocialLogin>
                 </Link>
-            </PhoneLogin>
+                </Main>
+            </Contents>
         </Header>
     </Container>)
 }
