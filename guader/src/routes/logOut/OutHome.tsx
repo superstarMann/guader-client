@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { EmailSignInMutation, EmailSignInMutationVariables } from '../../__generated__/EmailSignInMutation';
-import { ErrorComment } from './PhoneLogin';
 import { toast } from 'react-toastify';
 import { Toaster } from 'react-hot-toast';
+import { ErrorComment } from '../../components/ErrorComment';
 
 export const Container = styled.div`
  height: 100vh;
@@ -155,9 +155,6 @@ export const OutHome = () => {
             }
         })
     }
-    const onToast = () => {
-        toast('it works!')
-    }
 
     return(
     <Container>
@@ -170,13 +167,15 @@ export const OutHome = () => {
                         <LoginInput 
                         {...register("email", {required: `Email is Required`})} 
                         placeholder='email'/>
-                        <ErrorComment>{errors.email?.message}</ErrorComment>
+                        <ErrorComment errorMessage={errors.email?.message}/>
                         <LoginInput 
                         {...register("password", {required: `Password is Required`})} 
                         placeholder='password'/>
                         <span>{errors.password?.message}</span>
                         <LogInBtn>{loading ? "loading" : "Log In"}</LogInBtn>
-                        <ErrorComment>{emailSignResult?.EmailSignIn.error}</ErrorComment>
+                        {emailSignResult?.EmailSignIn.error && (
+                            <ErrorComment errorMessage={emailSignResult.EmailSignIn.error}/>
+                        )}
                     </LoginForm>
                     <Link to={"/phone-login"}>
                     <CreateAccount>create an account &rarr;</CreateAccount>

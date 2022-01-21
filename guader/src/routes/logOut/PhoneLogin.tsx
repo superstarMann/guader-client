@@ -9,6 +9,7 @@ import countries from '../../countries';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGg } from '@fortawesome/free-brands-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
+import { ErrorComment } from '../../components/ErrorComment';
 
 const PhoneMain= styled.h1`
  width:30%;
@@ -60,17 +61,15 @@ const PhoneForm = styled.form`
  width: 100%;
 `
 
-export const ErrorComment = styled.span`
- text-align: left;
- padding: 5px 0px;
-`
-
 export const Logo = styled.span`
 cursor: pointer;
 position: absolute;
 top: 20px;
 left: 40px;
 font-size: 1.5rem;
+@media screen and (max-width: 32rem){
+  display: none;
+}
 `
 
 const PHONE_VERIFY = gql`
@@ -97,16 +96,15 @@ export const PhoneLogin = () => {
     })
     const onCompleted = (data: StartPhoneVerification) => {
       alert(`We send your ${getValues("phoneNumber")}`)
-      history("/verify-email")      
+      history("/verify-phone", {state: `enter-verify-code`})
     }
-    const [startPhoneVerificationMutation, {data}] = useMutation<
+    const [startPhoneVerificationMutation, {data: startPhoneResult, loading}] = useMutation<
     StartPhoneVerification, 
     StartPhoneVerificationVariables
     >(PHONE_VERIFY, {onCompleted})
 
     const onSubmit = () => {
       const {phoneNumber, dialCode} = getValues();
-      console.log(`${dialCode}${phoneNumber}`)
       /*
       startPhoneVerificationMutation({
         variables: {
@@ -135,11 +133,19 @@ export const PhoneLogin = () => {
                    </CountrySelect >
               <LoginInput 
               {...register("phoneNumber", 
-              {required: 'PhoneNumber is Required'})}
+              {required: 'PhoneNumber is Required',
+               minLength: 10
+               })}
               placeholder='010 1234 5678'
               />
-              <ErrorComment>{errors.phoneNumber?.message}</ErrorComment>
-              <LogInBtn>&rarr;</LogInBtn>
+              {errors.phoneNumber?.type === "minLength" && (
+                <ErrorComment errorMessage='Mobile Number must be more 10'/>
+              )}
+              <ErrorComment errorMessage={errors.phoneNumber?.message}/>
+              <LogInBtn>{loading ? "loading" : "Submit"}</LogInBtn>
+              {startPhoneResult?.StartPhoneVerification.error && (
+                <ErrorComment errorMessage={startPhoneResult.StartPhoneVerification.error}/>
+              )}
             </PhoneForm>
             </PhoneMain>
           </Contents>
