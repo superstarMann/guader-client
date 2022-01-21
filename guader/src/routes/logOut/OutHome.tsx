@@ -6,6 +6,8 @@ import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { EmailSignInMutation, EmailSignInMutationVariables } from '../../__generated__/EmailSignInMutation';
 import { ErrorComment } from './PhoneLogin';
+import { toast } from 'react-toastify';
+import { Toaster } from 'react-hot-toast';
 
 export const Container = styled.div`
  height: 100vh;
@@ -139,6 +141,7 @@ export const OutHome = () => {
     const {register, formState:{errors, isValid}, getValues, handleSubmit} = useForm<IFormProps>()
     const onCompleted = (data: EmailSignInMutation) => {
         console.log(data.EmailSignIn.error)
+        
     }
     const [emailSignInMutation, {data: emailSignResult, loading}] = useMutation<EmailSignInMutation,EmailSignInMutationVariables>(EMAIL_SIGN_IN_MUTATION,{
         onCompleted
@@ -151,6 +154,9 @@ export const OutHome = () => {
                 password
             }
         })
+    }
+    const onToast = () => {
+        toast('it works!')
     }
 
     return(
@@ -169,7 +175,7 @@ export const OutHome = () => {
                         {...register("password", {required: `Password is Required`})} 
                         placeholder='password'/>
                         <span>{errors.password?.message}</span>
-                        <LogInBtn>Log In</LogInBtn>
+                        <LogInBtn>{loading ? "loading" : "Log In"}</LogInBtn>
                         <ErrorComment>{emailSignResult?.EmailSignIn.error}</ErrorComment>
                     </LoginForm>
                     <Link to={"/phone-login"}>

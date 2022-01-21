@@ -6,6 +6,7 @@ import { Container, Contents, Header, Main, SubTitle } from './OutHome';
 import { faFacebook } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
 
 const SocialTitle = styled.h2`
 display: flex;
@@ -57,6 +58,8 @@ const BackCursor = styled.span`
 `
 
 export const SocialLogin = () => {
+
+    const notify = () => toast('Here is your toast')
  return(
      <Container>
          <Helmet><title>Sical-Login | Guader</title></Helmet>

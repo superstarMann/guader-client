@@ -45,13 +45,12 @@ font-size: 1rem;
  -moz-appearance: none;
  appearance: none;
  @media screen and (max-width: 32rem) {
-   width: 100%;
+  width: 100%;
  }
  margin-bottom: 15px;
  `
 
 const CountryOption = styled.option`
-
 `
 
 const PhoneForm = styled.form`
@@ -63,7 +62,7 @@ const PhoneForm = styled.form`
 
 export const ErrorComment = styled.span`
  text-align: left;
- padding-bottom: 5px;
+ padding: 5px 0px;
 `
 
 export const Logo = styled.span`
@@ -87,12 +86,15 @@ mutation StartPhoneVerification($phoneNumber: String!) {
 
 
 interface IPhoneProps{
-    phoneNumber: string
+    phoneNumber: string;
+    dialCode: string;
 }
 
 export const PhoneLogin = () => {
     const history = useNavigate();
-    const {register, handleSubmit, formState:{isValid, errors}, getValues} = useForm<IPhoneProps>()
+    const {register, handleSubmit, formState:{isValid, errors}, getValues} = useForm<IPhoneProps>({
+      defaultValues: {dialCode: "+82"}
+    })
     const onCompleted = (data: StartPhoneVerification) => {
       alert(`We send your ${getValues("phoneNumber")}`)
       history("/verify-email")      
@@ -103,11 +105,12 @@ export const PhoneLogin = () => {
     >(PHONE_VERIFY, {onCompleted})
 
     const onSubmit = () => {
-      const {phoneNumber} = getValues();
+      const {phoneNumber, dialCode} = getValues();
+      console.log(`${dialCode}${phoneNumber}`)
       /*
       startPhoneVerificationMutation({
         variables: {
-          phoneNumber
+          phoneNumber: `${dialCode}${phoneNumber}`
         }
       })*/
     }
@@ -123,14 +126,18 @@ export const PhoneLogin = () => {
               <PhoneForm onSubmit={handleSubmit(onSubmit)}>
                    <CountrySelect>
                    {countries.map((country, index) => (
-                     <CountryOption key={index} value={country.dial_code}>
+                     <CountryOption 
+                     {...register("dialCode")}
+                     key={index} value={country.dial_code}>
                        {country.flag} {country.name} {country.dial_code}
                      </CountryOption>
                    ))}
                    </CountrySelect >
               <LoginInput 
-              {...register("phoneNumber", {required: 'PhoneNumber is Required'})}
-              placeholder='010 1234 5678'/>
+              {...register("phoneNumber", 
+              {required: 'PhoneNumber is Required'})}
+              placeholder='010 1234 5678'
+              />
               <ErrorComment>{errors.phoneNumber?.message}</ErrorComment>
               <LogInBtn>&rarr;</LogInBtn>
             </PhoneForm>
