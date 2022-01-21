@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { EmailSignInMutation, EmailSignInMutationVariables } from '../../__generated__/EmailSignInMutation';
+import { ErrorComment } from './PhoneLogin';
 
 export const Container = styled.div`
  height: 100vh;
@@ -78,7 +79,7 @@ const LoginForm = styled.form`
  }
 `
 
-const LoginInput = styled.input`
+export const LoginInput = styled.input`
  border: none;
  margin-bottom: 10px;
  padding: 7px 10px;
@@ -105,7 +106,7 @@ const CreateAccount = styled.div`
  }
 `
 
-const LogInBtn = styled.button`
+export const LogInBtn = styled.button`
  margin-top: 10px;
  padding: 10px;
  border: none;
@@ -163,13 +164,13 @@ export const OutHome = () => {
                         <LoginInput 
                         {...register("email", {required: `Email is Required`})} 
                         placeholder='email'/>
-                        <span>{errors.email?.message}</span>
+                        <ErrorComment>{errors.email?.message}</ErrorComment>
                         <LoginInput 
                         {...register("password", {required: `Password is Required`})} 
                         placeholder='password'/>
                         <span>{errors.password?.message}</span>
                         <LogInBtn>Log In</LogInBtn>
-                        <h1>{emailSignResult?.EmailSignIn.error}</h1>
+                        <ErrorComment>{emailSignResult?.EmailSignIn.error}</ErrorComment>
                     </LoginForm>
                     <Link to={"/phone-login"}>
                     <CreateAccount>create an account &rarr;</CreateAccount>
