@@ -10,6 +10,7 @@ import { ErrorComment } from '../../components/ErrorComment';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGg } from '@fortawesome/free-brands-svg-icons';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 const COMPLETE_PHONE_VERIFICATION = gql`
 mutation CompletePhoneVerification($key: String!, $phoneNumber: String!) {
@@ -55,7 +56,7 @@ export const VerifyPhone = () => {
     return(
         <Container>
             <Helmet><title>{id} | Guader</title></Helmet>
-            <Link to="/phone-login"><Logo><FontAwesomeIcon icon={faGg}/></Logo></Link>
+            <Link to="/phone-login"><Logo><FontAwesomeIcon icon={faArrowLeft}/></Logo></Link>
             <Header>
                 <Contents>
                  <PhoneMain>

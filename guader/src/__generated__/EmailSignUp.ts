@@ -23,7 +23,7 @@ export interface EmailSignUpVariables {
   password: string;
   firstName: string;
   lastName: string;
-  age: number;
+  age: string;
   phoneNumber: string;
   profilePhoto: string;
 }

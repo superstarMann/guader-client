@@ -82,7 +82,7 @@ const LoginForm = styled.form`
 
 export const LoginInput = styled.input`
  border: none;
- margin-bottom: 10px;
+ margin-bottom: 5px;
  padding: 7px 10px;
  border-radius: 0.375rem;
  box-sizing: border-box;
@@ -170,7 +170,7 @@ export const OutHome = () => {
                         <LoginInput 
                         {...register("password", {required: `Password is Required`})} 
                         placeholder='password'/>
-                        <span>{errors.password?.message}</span>
+                        <ErrorComment errorMessage={errors.password?.message}/>
                         <LogInBtn>{loading ? "loading" : "Log In"}</LogInBtn>
                         {emailSignResult?.EmailSignIn.error && (
                             <ErrorComment errorMessage={emailSignResult.EmailSignIn.error}/>

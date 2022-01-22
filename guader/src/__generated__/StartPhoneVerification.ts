@@ -18,5 +18,5 @@ export interface StartPhoneVerification {
 }
 
 export interface StartPhoneVerificationVariables {
-  phoneNumber: string | undefined;
+  phoneNumber: string;
 }
