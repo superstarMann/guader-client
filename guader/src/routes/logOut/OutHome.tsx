@@ -5,8 +5,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { EmailSignInMutation, EmailSignInMutationVariables } from '../../__generated__/EmailSignInMutation';
-import { toast } from 'react-toastify';
-import { Toaster } from 'react-hot-toast';
+
 import { ErrorComment } from '../../components/ErrorComment';
 
 export const Container = styled.div`

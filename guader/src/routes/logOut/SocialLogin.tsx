@@ -58,8 +58,6 @@ const BackCursor = styled.span`
 `
 
 export const SocialLogin = () => {
-
-    const notify = () => toast('Here is your toast')
  return(
      <Container>
          <Helmet><title>Sical-Login | Guader</title></Helmet>
