@@ -1,9 +1,9 @@
 import React from 'react';
 import { HelmetProvider } from 'react-helmet-async';
-import { Toaster } from 'react-hot-toast';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from '../globalStyles';
+import { CreateAccount } from '../routes/logOut/Create-Account';
 import { OutHome } from '../routes/logOut/OutHome';
 import { PhoneLogin } from '../routes/logOut/PhoneLogin';
 import { SocialLogin } from '../routes/logOut/SocialLogin';
@@ -20,6 +20,7 @@ export const IsLoggedOutRoutes = () => {
              <Route path="/*" element={<OutHome/>} />
              <Route path="/phone-login" element={<PhoneLogin/>}/>
              <Route path="/verify-phone/:id" element={<VerifyPhone/>}/>
+             <Route path="/create-account" element={<CreateAccount/>}/>
              <Route path="/social-login" element={<SocialLogin/>}/>
              <Route path="*" element={<Navigate to="/" />}/>
          </Routes>

@@ -5,7 +5,11 @@ import { useForm } from 'react-hook-form';
 import { Container, Contents, Header, LogInBtn, LoginInput } from './OutHome';
 import { useNavigate, useParams } from 'react-router';
 import { CompletePhoneVerification, CompletePhoneVerificationVariables } from '../../__generated__/CompletePhoneVerification';
-import { PhoneForm, PhoneMain, PhoneTitle } from './PhoneLogin';
+import { Logo, PhoneForm, PhoneMain, PhoneTitle } from './PhoneLogin';
+import { ErrorComment } from '../../components/ErrorComment';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGg } from '@fortawesome/free-brands-svg-icons';
 
 const COMPLETE_PHONE_VERIFICATION = gql`
 mutation CompletePhoneVerification($key: String!, $phoneNumber: String!) {
@@ -25,12 +29,17 @@ type IParams = {
 }
 
 export const VerifyPhone = () => {
+    const history = useNavigate()
     const {id} = useParams<IParams>();
-    const {register, handleSubmit, getValues, formState:{errors, isValid}} = useForm<IProps>()
+    const {register, handleSubmit, getValues, formState:{errors}} = useForm<IProps>()
     const onCompleted = (data: CompletePhoneVerification) => {
-        console.log(data.CompletePhoneVerification.ok)
+        const {ok} = data.CompletePhoneVerification
+        if(ok){
+            alert(`${id} is Success for Verification!`)
+            history('/create-account')
+        }
     }
-    const [completePhoneVerificationMuation, {data: VerifyCode, loading}] = useMutation<
+    const [completePhoneVerificationMuation, {data: VerifyCodeResult, loading}] = useMutation<
     CompletePhoneVerification, CompletePhoneVerificationVariables>(COMPLETE_PHONE_VERIFICATION, {onCompleted});
     const onSubmit = () => {
         console.log(`VerifyCode:${getValues("key")}, PhoneNumber:${id}`);
@@ -46,6 +55,7 @@ export const VerifyPhone = () => {
     return(
         <Container>
             <Helmet><title>{id} | Guader</title></Helmet>
+            <Link to="/phone-login"><Logo><FontAwesomeIcon icon={faGg}/></Logo></Link>
             <Header>
                 <Contents>
                  <PhoneMain>
@@ -57,7 +67,13 @@ export const VerifyPhone = () => {
                         {required: 'Please Enter Your Verify Code',
                         maxLength: 5
                         })}/>
+                        {errors.key?.type === "maxLength" &&(
+                            <ErrorComment errorMessage='You must be less than 5 numbers'/>
+                        )}
                         <LogInBtn>{loading ? "Loading" : "Submit"}</LogInBtn>
+                        {VerifyCodeResult?.CompletePhoneVerification.error &&(
+                            <ErrorComment errorMessage={VerifyCodeResult.CompletePhoneVerification.error}/>
+                        )}
                     </PhoneForm>
                  </PhoneMain>
                 </Contents>

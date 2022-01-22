@@ -2,11 +2,10 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Helmet } from 'react-helmet-async';
 import styled from 'styled-components';
-import { Container, Contents, Header, Main, SubTitle } from './OutHome';
+import { Container, Contents, Header } from './OutHome';
 import { faFacebook } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import toast, { Toaster } from 'react-hot-toast';
 
 const SocialTitle = styled.h2`
 display: flex;

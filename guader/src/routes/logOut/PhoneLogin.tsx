@@ -89,12 +89,14 @@ interface IPhoneProps{
 
 export const PhoneLogin = () => {
     const history = useNavigate();
-    const {register, handleSubmit, formState:{isValid, errors}, getValues} = useForm<IPhoneProps>({
+    const {register, handleSubmit, formState:{errors}, getValues} = useForm<IPhoneProps>({
       defaultValues: {dialCode: "+82"}
     })
     const onCompleted = (data: StartPhoneVerification) => {
-      alert(`We send your ${getValues("phoneNumber")}`)
+      
+      alert(`We send the verify code`)
       history(`/verify-phone/+82${getValues("phoneNumber")}`)
+    
     }
     const [startPhoneVerificationMutation, {data: startPhoneResult, loading}] = useMutation<
     StartPhoneVerification, 
@@ -103,12 +105,11 @@ export const PhoneLogin = () => {
 
     const onSubmit = () => {
       const {phoneNumber, dialCode} = getValues();
-      /*
       startPhoneVerificationMutation({
         variables: {
           phoneNumber: `${dialCode}${phoneNumber}`
         }
-      })*/
+      })
     }
 
  return(

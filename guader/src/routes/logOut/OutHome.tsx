@@ -137,7 +137,7 @@ interface IFormProps{
 }
 
 export const OutHome = () => {
-    const {register, formState:{errors, isValid}, getValues, handleSubmit} = useForm<IFormProps>()
+    const {register, formState:{errors}, getValues, handleSubmit} = useForm<IFormProps>()
     const onCompleted = (data: EmailSignInMutation) => {
         console.log(data.EmailSignIn.error)
         

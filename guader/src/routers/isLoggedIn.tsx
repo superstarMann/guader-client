@@ -1,6 +1,5 @@
 import React from 'react'
 import { HelmetProvider } from 'react-helmet-async'
-import { Toaster } from 'react-hot-toast'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 import { GlobalStyles } from '../globalStyles'
