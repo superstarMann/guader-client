@@ -7,6 +7,8 @@ import { useForm } from 'react-hook-form';
 import { EmailSignInMutation, EmailSignInMutationVariables } from '../../__generated__/EmailSignInMutation';
 
 import { ErrorComment } from '../../components/ErrorComment';
+import { LOCALSTORAGE_TOKEN } from '../../contants/token';
+import { authTokenVar, isLoggedInVar } from '../../apollo';
 
 export const Container = styled.div`
  height: 100vh;
@@ -127,6 +129,7 @@ mutation EmailSignInMutation($email: String!, $password: String!) {
     EmailSignIn(email: $email, password: $password) {
       ok
       error
+      token
     }
   }
 `;
@@ -139,9 +142,12 @@ interface IFormProps{
 export const OutHome = () => {
     const {register, formState:{errors}, getValues, handleSubmit} = useForm<IFormProps>()
     const onCompleted = (data: EmailSignInMutation) => {
-        const {EmailSignIn: {ok, error}} = data
-        if(ok){
+        const {EmailSignIn: {ok, error, token}} = data
+        if(ok && token){
             alert('Welcome to Guadr!')
+            localStorage.setItem(LOCALSTORAGE_TOKEN, token)
+            authTokenVar(token);
+            isLoggedInVar(true)
         }else if(error){
             alert("Log IN Failed")
         }

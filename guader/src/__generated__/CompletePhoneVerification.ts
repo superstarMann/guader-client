@@ -19,5 +19,5 @@ export interface CompletePhoneVerification {
 
 export interface CompletePhoneVerificationVariables {
   key: string;
-  phoneNumber: string | undefined
+  phoneNumber: string | undefined;
 }

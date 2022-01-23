@@ -11,6 +11,7 @@ export interface EmailSignInMutation_EmailSignIn {
   __typename: "EmailSignInResponse";
   ok: boolean;
   error: string | null;
+  token: string | null;
 }
 
 export interface EmailSignInMutation {
