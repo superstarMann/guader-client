@@ -20,7 +20,7 @@ export const IsLoggedOutRoutes = () => {
              <Route path="/*" element={<OutHome/>} />
              <Route path="/phone-login" element={<PhoneLogin/>}/>
              <Route path="/verify-phone/:id" element={<VerifyPhone/>}/>
-             <Route path="/create-account" element={<CreateAccount/>}/>
+             <Route path="/verify-phone/:id/create-account/:id" element={<CreateAccount/>}/>
              <Route path="/social-login" element={<SocialLogin/>}/>
              <Route path="*" element={<Navigate to="/" />}/>
          </Routes>

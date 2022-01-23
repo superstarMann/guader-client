@@ -37,7 +37,7 @@ export const VerifyPhone = () => {
         const {ok} = data.CompletePhoneVerification
         if(ok){
             alert(`${id} is Success for Verification!`)
-            history('/create-account')
+            history(`/verify-phone/${id}/create-account/${id}`)
         }
     }
     const [completePhoneVerificationMuation, {data: VerifyCodeResult, loading}] = useMutation<

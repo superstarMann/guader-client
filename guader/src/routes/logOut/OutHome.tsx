@@ -139,7 +139,12 @@ interface IFormProps{
 export const OutHome = () => {
     const {register, formState:{errors}, getValues, handleSubmit} = useForm<IFormProps>()
     const onCompleted = (data: EmailSignInMutation) => {
-        console.log(data.EmailSignIn.error)
+        const {EmailSignIn: {ok, error}} = data
+        if(ok){
+            alert('Welcome to Guadr!')
+        }else if(error){
+            alert("Log IN Failed")
+        }
         
     }
     const [emailSignInMutation, {data: emailSignResult, loading}] = useMutation<EmailSignInMutation,EmailSignInMutationVariables>(EMAIL_SIGN_IN_MUTATION,{
