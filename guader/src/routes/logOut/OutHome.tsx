@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { EmailSignInMutation, EmailSignInMutationVariables } from '../../__generated__/EmailSignInMutation';
-
 import { ErrorComment } from '../../components/ErrorComment';
 import { LOCALSTORAGE_TOKEN } from '../../contants/token';
 import { authTokenVar, isLoggedInVar } from '../../apollo';
@@ -14,7 +13,7 @@ export const Container = styled.div`
  height: 100vh;
 `;
 
-export const Header = styled.header`
+export const FHeader = styled.header`
  height: 100%;
  display: flex;
  align-items: center;
@@ -26,7 +25,7 @@ export const Header = styled.header`
     }
 `
 
-export const Contents = styled.div`
+export const FContents = styled.div`
   padding: 20px;
   width: 100%;
   margin: auto;
@@ -37,7 +36,7 @@ export const Contents = styled.div`
   }
 `;
 
-export const SubTitle = styled.h2`
+export const FSubTitle = styled.h2`
  font-weight: 300;
  text-align: center;
  font-size: 1.875rem;
@@ -65,7 +64,7 @@ const SocialLink = styled.span`
  }
 `
 
-export const Main = styled.div`
+export const FMain = styled.div`
  width: 30%;
  margin: 0px auto;
  @media screen and (max-width: 32rem){
@@ -168,11 +167,11 @@ export const OutHome = () => {
 
     return(
     <Container>
-        <Header>
+        <FHeader>
             <Helmet><title>Login | Guader</title></Helmet>
-            <Contents>
-                    <SubTitle>Welcome to the Guader</SubTitle>
-                    <Main>
+            <FContents>
+                    <FSubTitle>Welcome to the Guader</FSubTitle>
+                    <FMain>
                     <LoginForm onSubmit={handleSubmit(onSubmit)}>
                         <LoginInput 
                         {...register("email", {required: `Email is Required`})} 
@@ -197,8 +196,8 @@ export const OutHome = () => {
                         </SocialLink>
                     </SocialLogin>
                 </Link>
-                </Main>
-            </Contents>
-        </Header>
+                </FMain>
+            </FContents>
+        </FHeader>
     </Container>)
 }

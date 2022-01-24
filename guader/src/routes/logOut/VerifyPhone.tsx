@@ -2,7 +2,7 @@ import React from 'react';
 import { gql, useMutation } from '@apollo/client';
 import { Helmet } from 'react-helmet-async';
 import { useForm } from 'react-hook-form';
-import { Container, Contents, Header, LogInBtn, LoginInput } from './OutHome';
+import { Container, FContents, FHeader, LogInBtn, LoginInput } from './OutHome';
 import { useNavigate, useParams } from 'react-router';
 import { CompletePhoneVerification, CompletePhoneVerificationVariables } from '../../__generated__/CompletePhoneVerification';
 import { Logo, PhoneForm, PhoneMain, PhoneTitle } from './PhoneLogin';
@@ -57,8 +57,8 @@ export const VerifyPhone = () => {
         <Container>
             <Helmet><title>{id} | Guader</title></Helmet>
             <Link to="/phone-login"><Logo><FontAwesomeIcon icon={faArrowLeft}/></Logo></Link>
-            <Header>
-                <Contents>
+            <FHeader>
+                <FContents>
                  <PhoneMain>
                     <PhoneTitle>2. Verify Your Code</PhoneTitle>
                     <PhoneForm onSubmit={handleSubmit(onSubmit)}>
@@ -77,8 +77,8 @@ export const VerifyPhone = () => {
                         )}
                     </PhoneForm>
                  </PhoneMain>
-                </Contents>
-            </Header>
+                </FContents>
+            </FHeader>
         </Container>
     )
 }

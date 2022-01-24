@@ -3,7 +3,7 @@ import { gql, useMutation } from '@apollo/client';
 import { Helmet } from 'react-helmet-async';
 import { useForm } from 'react-hook-form';
 import { StartPhoneVerification, StartPhoneVerificationVariables } from '../../__generated__/StartPhoneVerification';
-import { Container, Contents, Header, LogInBtn, LoginInput } from './OutHome';
+import { Container, FContents, FHeader, LogInBtn, LoginInput } from './OutHome';
 import styled from 'styled-components';
 import countries from '../../countries';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -116,8 +116,8 @@ export const PhoneLogin = () => {
      <Container>
        <Helmet><title>Phone-Login | Guader</title></Helmet>
        <Link to="/"><Logo><FontAwesomeIcon icon={faGg}/></Logo></Link>
-        <Header>
-          <Contents>
+        <FHeader>
+          <FContents>
             <PhoneMain>
               <PhoneTitle>1. Verify Your Mobile Number</PhoneTitle>
               <PhoneForm onSubmit={handleSubmit(onSubmit)}>
@@ -147,8 +147,8 @@ export const PhoneLogin = () => {
                 )}
             </PhoneForm>
             </PhoneMain>
-          </Contents>
-        </Header>
+          </FContents>
+        </FHeader>
      </Container>
  )
 }

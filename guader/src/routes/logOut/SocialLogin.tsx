@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Helmet } from 'react-helmet-async';
 import styled from 'styled-components';
-import { Container, Contents, Header } from './OutHome';
+import { Container, FContents, FHeader } from './OutHome';
 import { faFacebook } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
@@ -60,8 +60,8 @@ export const SocialLogin = () => {
  return(
      <Container>
          <Helmet><title>Sical-Login | Guader</title></Helmet>
-         <Header>
-         <Contents>
+         <FHeader>
+         <FContents>
              <SocialTitle>
                  <Link to={"/"}><BackCursor>{"<"}</BackCursor></Link>
                  <span>Choose an Account</span>
@@ -75,8 +75,8 @@ export const SocialLogin = () => {
                 <FontAwesomeIcon icon={faEnvelope}/><AccountName>Email &rarr;</AccountName>
                 </SocialLi>
              </SocialUl>
-         </Contents>
-         </Header>
+         </FContents>
+         </FHeader>
      </Container>     
  )
 }
