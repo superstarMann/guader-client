@@ -8,6 +8,7 @@ query GetMyProfile {
       ok
       error
       user {
+        id
         profilePhoto
         fullName
         lastName

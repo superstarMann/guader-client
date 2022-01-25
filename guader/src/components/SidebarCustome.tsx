@@ -1,9 +1,10 @@
+import React, { useState } from 'react';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react';
 import Sidebar from 'react-sidebar';
 import styled from 'styled-components';
 import { Menubar } from './SideMenu';
+
 
 const SMain = styled.div`
  width: 100%;

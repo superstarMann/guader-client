@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { gql, useApolloClient, useMutation } from '@apollo/client';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
-import { GetMyProfile } from '../__generated__/GetMyProfile';
 import { Container } from '../routes/logOut/OutHome';
 import { Link } from 'react-router-dom';
 import { useMe } from './useMe';
@@ -60,23 +59,45 @@ display: flex;
 flex-direction: column;
 `
 
-const TOGGLE_PROTECT_MUTATION = gql`
-mutation ToggleWalkingMode {
-  ToggleWalkingMode {
+export const TOGGLE_PROTECT_MUTATION = gql`
+mutation ToggleWalkingMode($userId: Int!) {
+  ToggleWalkingMode(userId: $userId) {
     ok
-    error 
+    error
   }
 }
 `
 
 export const Menubar = () => {
-  const {data} = useMe()
-    const [isToggle, setIsToggle] = useState(false);
-    const onClick = () => {
-      if(isToggle){
-        setIsToggle(false);
-      }else{
-        setIsToggle(true);
+  const client = useApolloClient()
+  const {data} = useMe();
+  const [isToggle, setIsToggle] = useState(false);
+  const onClick = () => {
+      setIsToggle(!isToggle)
+      if(!isToggle && data?.GetMyProfile.user){
+        client.writeFragment({
+          id: `User:${data?.GetMyProfile.user?.id}`,
+          fragment: gql`
+              fragment StartProtect on User {
+                isProtecting
+              }
+          `,
+          data:{
+            isProtecting: true
+          }
+        })
+      }else if(isToggle && data?.GetMyProfile.user?.id){
+        client.writeFragment({
+          id: `User${data?.GetMyProfile.user?.id}`,
+          fragment: gql`
+          fragment StopProtect on User{
+            isProtecting
+          }
+          `,
+          data:{
+            isProtecting: false
+          }
+        })
       }
     }
     return(
@@ -95,6 +116,9 @@ export const Menubar = () => {
             <button onClick={onClick}>{isToggle ? (
               <MTrue>Stop Protecting</MTrue>
             ): (<MFalse>Start Protecting</MFalse>)}</button>
+            <MLink to="/">
+              {data?.GetMyProfile.user?.isProtecting ? "true": "false"}
+            </MLink>
             </MItemts>
         </Container>
     )

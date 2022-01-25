@@ -9,6 +9,7 @@
 
 export interface GetMyProfile_GetMyProfile_user {
   __typename: "User";
+  id: number;
   profilePhoto: string | null;
   fullName: string | null;
   lastName: string;

@@ -16,3 +16,7 @@ export interface ToggleWalkingMode_ToggleWalkingMode {
 export interface ToggleWalkingMode {
   ToggleWalkingMode: ToggleWalkingMode_ToggleWalkingMode;
 }
+
+export interface ToggleWalkingModeVariables {
+  userId: number | undefined;
+}
