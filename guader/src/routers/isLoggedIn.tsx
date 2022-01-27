@@ -2,6 +2,7 @@ import React from 'react'
 import { HelmetProvider } from 'react-helmet-async'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
+import { Header } from '../components/Header'
 import { GlobalStyles } from '../globalStyles'
 import { AddPlace } from '../routes/logIn/AddPlace'
 import { EditAccount } from '../routes/logIn/EditAccount'
@@ -18,10 +19,11 @@ export const IsLoggedInRoutes = () => {
         <ThemeProvider theme={theme}>
             <GlobalStyles/>
         <BrowserRouter>
+        <Header/>
          <Routes>
              <Route path="/*" element={<Home/>}/>
              <Route path="/protect/*" element={<Protect/>}/>
-             <Route path="/edit-accont/*" element={<EditAccount/>}/>
+             <Route path="/edit-account/*" element={<EditAccount/>}/>
              <Route path="/settings/*" element={<Settings/>}/>
              <Route path="/places/*" element={<Places/>}/>
              <Route path="/add-place/*" element={<AddPlace/>}/>
@@ -33,13 +35,3 @@ export const IsLoggedInRoutes = () => {
         </HelmetProvider>
     )
 }
-
-/*
-Home
-Ride
-EditAccount
-Settings
-Places
-AddPlace
-FindAddress
-*/

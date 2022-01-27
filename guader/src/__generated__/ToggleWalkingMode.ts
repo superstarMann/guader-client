@@ -18,5 +18,5 @@ export interface ToggleWalkingMode {
 }
 
 export interface ToggleWalkingModeVariables {
-  userId: number | undefined;
+  userId: number;
 }

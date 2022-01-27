@@ -1,17 +1,32 @@
 import React, { useState } from'react'
 import { gql, useApolloClient, useMutation } from "@apollo/client";
 import { useMe } from './useMe';
-import { TOGGLE_PROTECT_MUTATION } from './SideMenu';
+import { TOGGLE_PROTECT_MUTATION } from '../routes/logIn/sideRoutes/SideMenu';
 import { ToggleWalkingMode, ToggleWalkingModeVariables } from '../__generated__/ToggleWalkingMode';
+import styled from 'styled-components';
 
-export const MainMenu = () => {
+const ToggleMain = styled.div`
+display: flex;
+gap: 10px;
+`
+
+const ToggleBtn = styled.button`
+border: none;
+cursor: pointer;
+border-radius: 1rem;
+padding: 3px 5px;
+background-color: #f1c40f;
+`
+
+const Status = styled.span`
+
+`
+
+export const ToggleStatus= () => {
     const client = useApolloClient()
     const {data: userData} = useMe();
-    const onCompleted = () => {
-        console.log(userData?.GetMyProfile.ok)
-    }
     const [isToggle, setIsToggle] = useState(false);
-    const [toggleWalkingMode] = useMutation<ToggleWalkingMode, ToggleWalkingModeVariables>(TOGGLE_PROTECT_MUTATION, {onCompleted})
+    const [toggleWalkingMode] = useMutation<ToggleWalkingMode, ToggleWalkingModeVariables>(TOGGLE_PROTECT_MUTATION)
     const onAClick = (userId: any) => {
         setIsToggle(!isToggle)
         toggleWalkingMode({
@@ -46,15 +61,14 @@ export const MainMenu = () => {
         }
     }
 
-
       return(
-          <div>
-              <button onClick={() => onAClick(userData?.GetMyProfile.user?.id)}>{
+        <ToggleMain>
+            <Status>{`Status: ${isToggle ? "Guader" : "User"}`}</Status>
+            <ToggleBtn onClick={() => onAClick(userData?.GetMyProfile.user?.id)}>{
               userData?.GetMyProfile.user?.isProtecting ? (
-                <span>Stop Protecting</span>
-              ): (<span>Start Protecting</span>)}</button>
-              <span>
-              </span>
-              </div>
+                <span>Stop Protecting</span>):(
+                <span>Start Protecting</span>)}
+            </ToggleBtn>
+        </ToggleMain>
       )
   }

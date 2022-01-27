@@ -61,7 +61,7 @@ export const PhoneForm = styled.form`
  width: 100%;
 `
 
-export const Logo = styled.span`
+export const LogoOut = styled.span`
 cursor: pointer;
 position: absolute;
 top: 20px;
@@ -115,7 +115,7 @@ export const PhoneLogin = () => {
  return(
      <Container>
        <Helmet><title>Phone-Login | Guader</title></Helmet>
-       <Link to="/"><Logo><FontAwesomeIcon icon={faGg}/></Logo></Link>
+       <Link to="/"><LogoOut><FontAwesomeIcon icon={faGg}/></LogoOut></Link>
         <FHeader>
           <FContents>
             <PhoneMain>

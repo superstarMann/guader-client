@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { Container, FContents, FHeader, LogInBtn, LoginInput } from './OutHome';
 import { useNavigate, useParams } from 'react-router';
 import { CompletePhoneVerification, CompletePhoneVerificationVariables } from '../../__generated__/CompletePhoneVerification';
-import { Logo, PhoneForm, PhoneMain, PhoneTitle } from './PhoneLogin';
+import { LogoOut, PhoneForm, PhoneMain, PhoneTitle } from './PhoneLogin';
 import { ErrorComment } from '../../components/ErrorComment';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -56,7 +56,7 @@ export const VerifyPhone = () => {
     return(
         <Container>
             <Helmet><title>{id} | Guader</title></Helmet>
-            <Link to="/phone-login"><Logo><FontAwesomeIcon icon={faArrowLeft}/></Logo></Link>
+            <Link to="/phone-login"><LogoOut><FontAwesomeIcon icon={faArrowLeft}/></LogoOut></Link>
             <FHeader>
                 <FContents>
                  <PhoneMain>

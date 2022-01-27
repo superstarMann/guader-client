@@ -3,9 +3,10 @@ import { gql, useApolloClient, useMutation } from '@apollo/client';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
-import { Container } from '../routes/logOut/OutHome';
+import { Container } from '../../logOut/OutHome';
 import { Link } from 'react-router-dom';
-import { useMe } from './useMe';
+import { useMe } from '../../../components/useMe';
+import { ToggleWalkingMode, ToggleWalkingModeVariables } from '../../../__generated__/ToggleWalkingMode';
 
 const Mheader = styled.header`
  padding-top: 60px;
@@ -13,7 +14,7 @@ const Mheader = styled.header`
  padding-left: 30px;
  display: flex;
  `
-const MPhoto = styled.div`
+const MPhoto = styled(Link)`
 text-align: center;
 font-size: 2.25rem;
 line-height: 2.5rem;
@@ -72,8 +73,14 @@ export const Menubar = () => {
   const client = useApolloClient()
   const {data} = useMe();
   const [isToggle, setIsToggle] = useState(false);
-  const onClick = () => {
+  const [toggleWalkingMode] = useMutation<ToggleWalkingMode, ToggleWalkingModeVariables>(TOGGLE_PROTECT_MUTATION)
+  const onClick = (userId: any) => {
       setIsToggle(!isToggle)
+      toggleWalkingMode({
+        variables:{
+            userId
+        }
+    })
       if(!isToggle && data?.GetMyProfile.user){
         client.writeFragment({
           id: `User:${data?.GetMyProfile.user?.id}`,
@@ -103,22 +110,22 @@ export const Menubar = () => {
     return(
         <Container>
             <Mheader>
-                <MPhoto><FontAwesomeIcon icon={faUserCircle}/></MPhoto>
+                <MPhoto to="/edit-account"><FontAwesomeIcon icon={faUserCircle}/></MPhoto>
                 <MContetns>
                 <Mtitle>{data?.GetMyProfile.user?.fullName}</Mtitle>
                 <MSpan>{data?.GetMyProfile.user?.email}</MSpan>
+                <MSpan>{`Status: ${data?.GetMyProfile.user?.isProtecting ? "Guader": "User"}`}</MSpan>
                 </MContetns>
             </Mheader>
             <MItemts>
-            <MLink to="/trips">Your Trips</MLink>
-            <MLink to="/settings">Settings</MLink>
-            <MLink to="/">Start Protecting</MLink>
-            <button onClick={onClick}>{isToggle ? (
+            <button onClick={() => onClick(data?.GetMyProfile.user?.id)}>{
+            isToggle&&data?.GetMyProfile.user?.isProtecting ? (
               <MTrue>Stop Protecting</MTrue>
             ): (<MFalse>Start Protecting</MFalse>)}</button>
-            <MLink to="/">
-              {data?.GetMyProfile.user?.isProtecting ? "true": "false"}
-            </MLink>
+            <MLink to="/">Home</MLink>
+            <MLink to="/edit-account">Edit Profile</MLink>
+            <MLink to="/trips">Your Trips</MLink>
+            <MLink to="/settings">Settings</MLink>
             </MItemts>
         </Container>
     )

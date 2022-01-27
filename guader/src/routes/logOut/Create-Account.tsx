@@ -5,7 +5,7 @@ import { EmailSignUp, EmailSignUpVariables } from '../../__generated__/EmailSign
 import { useNavigate, useParams } from 'react-router';
 import { Container, FContents, FHeader, LogInBtn, LoginInput } from './OutHome';
 import { Helmet } from 'react-helmet-async';
-import { Logo, PhoneForm, PhoneMain, PhoneTitle } from './PhoneLogin';
+import { LogoOut, PhoneForm, PhoneMain, PhoneTitle } from './PhoneLogin';
 import { ErrorComment } from '../../components/ErrorComment';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -68,7 +68,7 @@ export const CreateAccount = () => {
     return(
         <Container>
           <Helmet><title>Create-account | Guader</title></Helmet>
-          <Link to="/phone-login"><Logo><FontAwesomeIcon icon={faArrowLeft}/></Logo></Link>
+          <Link to="/phone-login"><LogoOut><FontAwesomeIcon icon={faArrowLeft}/></LogoOut></Link>
           <FHeader>
             <FContents>
               <PhoneMain>
