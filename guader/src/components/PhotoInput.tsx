@@ -3,25 +3,28 @@ import styled from 'styled-components';
 import { useMe } from './useMe';
 
 const Container = styled.div`
-width: 80px;
-margin: auto;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
 `
 
 const Image = styled.label`
   cursor: pointer;
-  height: 100px;
-  width: 100px;
+  height: 99px;
+  width: 99px;
   border: 2px solid black;
   display: block;
   border-radius: 50%;
-  margin-bottom: 35px;
+  margin-bottom: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 28px;
   overflow: hidden;
-  &:image{
-    background-image: cover;
+  & img {
+    width: 110px;
+    height: 110px;
   }
 `
 const Input = styled.input`

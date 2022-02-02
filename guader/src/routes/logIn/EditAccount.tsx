@@ -11,7 +11,7 @@ import { PhotoInput } from '../../components/PhotoInput';
 import axios from 'axios';
 
 const EditMain = styled.div`
- padding-right: 50px;
+ padding: 50px;
  height: 70%;
  display: flex;
  align-items: center;
@@ -20,7 +20,7 @@ const EditMain = styled.div`
     align-items: flex-start;
     margin-top: 20px;
     margin: auto;
-    padding-right: 0px;
+    padding: 20px;
     }
 `
 
