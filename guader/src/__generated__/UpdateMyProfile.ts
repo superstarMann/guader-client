@@ -21,4 +21,5 @@ export interface UpdateMyProfileVariables {
   firstName?: string | null;
   lastName?: string | null;
   email?: string | null;
+  profilePhoto?: string | null;
 }

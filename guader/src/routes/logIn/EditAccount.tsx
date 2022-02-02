@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { gql, useMutation } from '@apollo/client';
 import { Helmet } from 'react-helmet-async';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import { useMe } from '../../components/useMe';
 import { UpdateMyProfile, UpdateMyProfileVariables } from '../../__generated__/UpdateMyProfile';
 import { Container, FContents, LogInBtn } from '../logOut/OutHome';
 import { PhoneForm, PhoneMain, PhoneTitle } from '../logOut/PhoneLogin';
 import { ErrorComment } from '../../components/ErrorComment';
+import { PhotoInput } from '../../components/PhotoInput';
+import axios from 'axios';
 
 const EditMain = styled.div`
  padding-right: 50px;
@@ -38,8 +39,8 @@ const EditInput = styled.input`
  line-height: 1.5rem;
 `
 const UPDATE_MY_PROFILE = gql`
-mutation UpdateMyProfile($firstName: String, $lastName: String, $email: String) {
-    UpdateMyProfile(firstName: $firstName, lastName: $lastName, email: $email) {
+mutation UpdateMyProfile($firstName: String, $lastName: String, $email: String, $profilePhoto: String) {
+    UpdateMyProfile(firstName: $firstName, lastName: $lastName, email: $email, profilePhoto: $profilePhoto) {
       ok
       error
     }
@@ -50,9 +51,30 @@ interface IEditProps{
     firstName?: string;
     lastName?: string;
     email?: string;
+    profilePhoto?: string;
 }
 
 export const EditAccount = () => {
+    const [uploading, setUploading] = useState(false)
+    const [profilePhoto, setProfilePhoto]= useState("")
+    const onInputChange:React.ChangeEventHandler<HTMLInputElement> = async (event) => {
+      const {target: {files}} = event;
+      if(files){
+        setUploading(true)
+        const formData = new FormData();
+        formData.append("file", files[0])
+        formData.append("api_key", "Sb6lqXy1V3EqQ0MvpUIFFFfTAnw")
+        formData.append("upload_preset", "mqltjkkb")
+        formData.append("timestamp", String(Date.now() / 1000));
+        const {data: {secure_url}} = await axios.post("https://api.cloudinary.com/v1_1/dujjh9xtl/image/upload", 
+        formData
+        )
+        if(secure_url){
+          setUploading(false);
+          setProfilePhoto(secure_url);
+        }
+      }
+    }
     const onCompleted = (data: UpdateMyProfile) => {
       console.log(data.UpdateMyProfile.ok)
     }
@@ -62,7 +84,10 @@ export const EditAccount = () => {
        const {firstName, lastName, email} = getValues()
        updateMyProfileMutation({
          variables:{
-           firstName,lastName,email
+           firstName,
+           lastName,
+           email,
+           profilePhoto
          }
        })
     }
@@ -73,6 +98,7 @@ export const EditAccount = () => {
           <FContents>
             <PhoneMain>
               <PhoneTitle>Edit Your Account</PhoneTitle>
+              <PhotoInput uploading={uploading} fileUrl='' onChange={onInputChange}/>
               <PhoneForm onSubmit={handleSubmit(onSubmit)}>
                 <EditInput
                 type="email"

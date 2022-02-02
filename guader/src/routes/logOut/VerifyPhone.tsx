@@ -9,7 +9,6 @@ import { LogoOut, PhoneForm, PhoneMain, PhoneTitle } from './PhoneLogin';
 import { ErrorComment } from '../../components/ErrorComment';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGg } from '@fortawesome/free-brands-svg-icons';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 const COMPLETE_PHONE_VERIFICATION = gql`
