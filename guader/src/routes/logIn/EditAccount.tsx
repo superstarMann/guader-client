@@ -51,12 +51,28 @@ interface IEditProps{
     firstName?: string;
     lastName?: string;
     email?: string;
-    profilePhoto?: string;
 }
 
 export const EditAccount = () => {
     const [uploading, setUploading] = useState(false)
     const [profilePhoto, setProfilePhoto]= useState("")
+    const onCompleted = (data: UpdateMyProfile) => {
+      if(data.UpdateMyProfile.ok){
+        alert("Update Your Profile!");
+      }
+    }
+    const [updateMyProfileMutation, {data: updateMyProfileResult, loading}] = useMutation<UpdateMyProfile, UpdateMyProfileVariables>(UPDATE_MY_PROFILE, {onCompleted})
+    const {register, handleSubmit, getValues} = useForm<IEditProps>()
+    const onSubmit = () => {
+       const {firstName, lastName, email} = getValues()
+       updateMyProfileMutation({
+         variables:{
+           firstName,
+           lastName,
+           email
+         }
+       })
+    }
     const onInputChange:React.ChangeEventHandler<HTMLInputElement> = async (event) => {
       const {target: {files}} = event;
       if(files){
@@ -71,25 +87,14 @@ export const EditAccount = () => {
         )
         if(secure_url){
           setUploading(false);
-          setProfilePhoto(secure_url);
+          setProfilePhoto(secure_url)
+          updateMyProfileMutation({
+            variables:{
+              profilePhoto: profilePhoto
+            }
+          })
         }
       }
-    }
-    const onCompleted = (data: UpdateMyProfile) => {
-      console.log(data.UpdateMyProfile.ok)
-    }
-    const [updateMyProfileMutation, {data: updateMyProfileResult, loading}] = useMutation<UpdateMyProfile, UpdateMyProfileVariables>(UPDATE_MY_PROFILE, {onCompleted})
-    const {register, handleSubmit, getValues} = useForm<IEditProps>()
-    const onSubmit = () => {
-       const {firstName, lastName, email} = getValues()
-       updateMyProfileMutation({
-         variables:{
-           firstName,
-           lastName,
-           email,
-           profilePhoto
-         }
-       })
     }
     return(
         <Container>
@@ -98,7 +103,7 @@ export const EditAccount = () => {
           <FContents>
             <PhoneMain>
               <PhoneTitle>Edit Your Account</PhoneTitle>
-              <PhotoInput uploading={uploading} fileUrl='' onChange={onInputChange}/>
+              <PhotoInput uploading={uploading} fileUrl={profilePhoto} onChange={onInputChange}/>
               <PhoneForm onSubmit={handleSubmit(onSubmit)}>
                 <EditInput
                 type="email"

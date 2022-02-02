@@ -3,12 +3,14 @@ import styled from 'styled-components';
 import { useMe } from './useMe';
 
 const Container = styled.div`
+width: 80px;
+margin: auto;
 `
 
 const Image = styled.label`
   cursor: pointer;
-  height: 80px;
-  width: 80px;
+  height: 100px;
+  width: 100px;
   border: 2px solid black;
   display: block;
   border-radius: 50%;
@@ -18,6 +20,9 @@ const Image = styled.label`
   justify-content: center;
   font-size: 28px;
   overflow: hidden;
+  &:image{
+    background-image: cover;
+  }
 `
 const Input = styled.input`
 color: white;
