@@ -9,10 +9,10 @@ import { PhoneForm, PhoneMain, PhoneTitle } from '../logOut/PhoneLogin';
 import { ErrorComment } from '../../components/ErrorComment';
 import { PhotoInput } from '../../components/PhotoInput';
 import axios from 'axios';
+import { DashBoard } from '../../components/Dashboard';
 
-const EditMain = styled.div`
- padding: 50px;
- height: 70%;
+export const EditMain = styled.div`
+ padding: 20px;
  display: flex;
  align-items: center;
  justify-content: center;
@@ -24,7 +24,7 @@ const EditMain = styled.div`
     }
 `
 
-const EditInput = styled.input`
+export const EditInput = styled.input`
  border: none;
  margin-bottom: 10px;
  padding: 7px 10px;
@@ -62,7 +62,7 @@ export const EditAccount = () => {
       }
     }
     const [updateMyProfileMutation, {data: updateMyProfileResult, loading}] = useMutation<UpdateMyProfile, UpdateMyProfileVariables>(UPDATE_MY_PROFILE, {onCompleted})
-    const {register, handleSubmit, getValues} = useForm<IEditProps>()
+    const {register, handleSubmit, getValues, formState:{errors}} = useForm<IEditProps>()
     const onSubmit = () => {
        const {firstName, lastName, email} = getValues()
        updateMyProfileMutation({
@@ -100,6 +100,7 @@ export const EditAccount = () => {
         <Container>
         <Helmet><title>edit-account | Guader</title></Helmet>
         <EditMain>
+          <DashBoard/>
           <FContents>
             <PhoneMain>
               <PhoneTitle>Edit Your Account</PhoneTitle>
@@ -110,16 +111,19 @@ export const EditAccount = () => {
                 placeholder='example@example.com'
                 {...register("email")}
                 />
+                <ErrorComment errorMessage={errors.email?.message}/>
                 <EditInput
                 type="text"
                 placeholder='firstName'
                 {...register("firstName")}
                 />
+                <ErrorComment errorMessage={errors.firstName?.message}/>
                 <EditInput
                 type="text"
                 placeholder='lastName'
                 {...register("lastName")}
                 />
+                <ErrorComment errorMessage={errors.lastName?.message}/>
                 <LogInBtn>{loading ? "Loading" : "Update Account"}</LogInBtn>
                 {updateMyProfileResult?.UpdateMyProfile.error && (
                   <ErrorComment errorMessage={updateMyProfileResult.UpdateMyProfile.error}/>

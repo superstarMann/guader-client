@@ -30,6 +30,7 @@ margin-right: 10px;
 
 const LogoHome = styled(Link)`
 cursor: pointer;
+margin-left:50px;
 `
 const Account = styled(Link)`
 cursor: pointer;
