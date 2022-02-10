@@ -1,5 +1,5 @@
 import React from 'react';
-import { gql, useMutation } from '@apollo/client';
+import { gql, useApolloClient, useMutation } from '@apollo/client';
 import { Helmet } from 'react-helmet-async';
 import styled from 'styled-components';
 import { DashBoard } from '../../components/Dashboard';
@@ -10,12 +10,15 @@ import { AddPlace, AddPlaceVariables } from '../../__generated__/AddPlace';
 import { useForm } from 'react-hook-form';
 import { ErrorComment } from '../../components/ErrorComment';
 import { useNavigate } from 'react-router';
+import { GET_MY_PLACES } from './Places';
+import { useMe } from '../../components/useMe';
 
 const ADD_PLACE = gql`
 mutation AddPlace($name: String!, $lat: Float!, $lng: Float!, $address: String!, $isFav: Boolean!) {
     AddPlace(name: $name, lat: $lat, lng: $lng, address: $address, isFav: $isFav) {
       ok
       error
+      placeId
     }
   }
   
@@ -41,15 +44,38 @@ interface IProps{
 }
 
 export const AddPlaces = () => {
+    const client = useApolloClient()
     const history = useNavigate();
+    const {data: userData} = useMe()
     const {register,getValues, handleSubmit, formState:{errors}} = useForm<IProps>()
     const onCompleted = (data: AddPlace) => {
-        const {AddPlace: {ok}} = data;
+        const {AddPlace: {ok, error, placeId}} = data;
         if(ok){
+            const {name, address} = getValues();
+            const queryResult = client.readQuery({ query: GET_MY_PLACES });
+            console.log(queryResult);
+            client.writeQuery({
+                query: GET_MY_PLACES,
+                data:{
+                    GetMyPlaces:{
+                        ...queryResult.GetMyPlaces,
+                        places:[{
+                        address,
+                        id: placeId,
+                        isFav: true,
+                        name,
+                        userId: userData?.GetMyProfile.user?.id,
+                        __typename: "Place"},
+                        ...queryResult.GetMyPlaces.places
+                    ]}
+                }
+            })
             alert("Sucess!")
             history("/places")
-
+        }else{
+            console.log(error)
         }
+
     }
     const [addPlaceMutation, {data: addPlaceResult, loading}] = useMutation<AddPlace, AddPlaceVariables>(ADD_PLACE,
         {onCompleted});

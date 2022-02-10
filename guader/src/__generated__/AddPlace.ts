@@ -11,6 +11,7 @@ export interface AddPlace_AddPlace {
   __typename: "AddPlaceResponse";
   ok: boolean;
   error: string | null;
+  placeId: number | null;
 }
 
 export interface AddPlace {

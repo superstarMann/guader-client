@@ -18,6 +18,6 @@ export interface EditPlace {
 }
 
 export interface EditPlaceVariables {
-  placeId: number;
+  editPlaceId: number;
   isFav?: boolean | null;
 }
