@@ -1,5 +1,8 @@
-import React from 'react';
+import { useMutation } from '@apollo/client';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { DELETE_PLACE } from '../routes/logIn/Places';
+import { DeletePlace, DeletePlaceVariables } from '../__generated__/DeletePlace';
 
 const Item = styled.div`
 display: flex;
@@ -11,20 +14,42 @@ interface IPlace{
 address: string | undefined; 
 name: string | undefined;
 id?: number | undefined;
-isFav?: boolean | undefined;
-onClick?: (id: any, isFav: any) => void | undefined;
+isFav?: boolean;
+dltStart: boolean;
 }
 
-export const Place:React.FC<IPlace> = ({address,name, id, isFav, onClick}) => {
-    const wow = () => {}
-
+export const Place:React.FC<IPlace> = ({
+    address,
+    name, 
+    id, 
+    dltStart
+}) => {
+    const [deletePlaceMutation] = useMutation<DeletePlace, DeletePlaceVariables>(DELETE_PLACE);
+    const onClick = (id: any) => {
+           
+    }
     return(
         <>
+        {dltStart ? (
         <Item>
-        Name: {name}
-        <span>hi</span>
+            <div onClick={() => onClick(id)}>
+            <Item>
+             Name: {name}
+            <span>{""}</span>
+            </Item>
+            <div>Adderss: {address}</div>
+            </div>
         </Item>
-        <div>Adderss: {address}</div>
+            
+        ): (
+            <div onClick={() => onClick(id)}>
+            <Item>
+             Name: {name}
+            <span>{""}</span>
+            </Item>
+            <div>Adderss: {address}</div>
+            </div>
+        )}
         </>
     )
 }

@@ -4,10 +4,10 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { DashBoard } from '../../components/Dashboard';
-import { EditPlace, EditPlaceVariables } from '../../__generated__/EditPlace';
 import { GetMyPlaces } from '../../__generated__/GetMyPlaces';
 import { Container} from '../logOut/OutHome';
 import { Place } from '../../components/Place';
+import { DeletePlace, DeletePlaceVariables } from '../../__generated__/DeletePlace';
 
 const Main = styled.div`
 display: flex;
@@ -94,10 +94,9 @@ query GetMyPlaces{
     }
 }
 `
-
-const EDIT_PLACES = gql`
-mutation EditPlace($editPlaceId: Int!, $isFav: Boolean) {
-    EditPlace(id: $editPlaceId, isFav: $isFav) {
+export const DELETE_PLACE = gql`
+mutation DeletePlace($placeId: Int!) {
+    DeletePlace(placeId: $placeId) {
       ok
       error
     }
@@ -106,36 +105,34 @@ mutation EditPlace($editPlaceId: Int!, $isFav: Boolean) {
 
 export const Places = () => {
     const {data}= useQuery<GetMyPlaces>(GET_MY_PLACES);
-    const [ToggleFav, setToggleFav] = useState(false);
-    const [editPlaceMutation, {data: EditPlaceResult}] = useMutation<EditPlace, EditPlaceVariables>(EDIT_PLACES);
-    const onClick = (id: any, isFav: any) => {
-        editPlaceMutation({
-            variables:{
-                editPlaceId: id,
-                isFav: !isFav
-            }
-        })
+    const [dltStart, setDltStart] = useState(false);
+    const triggerBtn = () => {
+        setDltStart(!dltStart);
     }
+
     return(
         <Container>
             <Helmet><title>{`places | Guader`}</title></Helmet>
             <DashBoard/>
             <Main>
-                <Title>Places</Title>
+                <Title>Favorite Places</Title>
                    <ToggleBox>
-                   <ChangeFav>Favorite ★</ChangeFav>    
-                   <ToggleDelete>Delete</ToggleDelete>
+                       {dltStart ? (
+                       <ToggleDelete onClick={triggerBtn}>Done</ToggleDelete>) : (
+                        <ToggleDelete onClick={triggerBtn}>Delete</ToggleDelete>
+                       )}
                    </ToggleBox>
                 <Ul>
                 {data?.GetMyPlaces.places?.map((place) => (        
-                        <Items to=''>
-                           <Place 
-                           id={place?.id}
-                           address={place?.address}
-                           name={place?.name}
-                           isFav={place?.isFav}
-                           />
-                        </Items>
+                    <Items to=''>
+                      <Place
+                      dltStart={dltStart}
+                      id={place?.id}
+                      address={place?.address}
+                      name={place?.name}
+                      isFav={place?.isFav}
+                      />
+                    </Items>
                 ))}
                 </Ul>
                 <AddItems to='/add-place'>Please Add your Place! &rarr;</AddItems>

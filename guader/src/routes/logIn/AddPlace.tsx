@@ -87,7 +87,7 @@ export const AddPlaces = () => {
                 address,
                 lat: 123,
                 lng: 123,
-                isFav: false
+                isFav: true
             }
         })
     }
