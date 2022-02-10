@@ -1,10 +1,11 @@
-import { gql, useQuery } from '@apollo/client';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { DashBoard } from '../../components/Dashboard';
 import { useMe } from '../../components/useMe';
+import { EditPlace, EditPlaceVariables } from '../../__generated__/EditPlace';
 import { GetMyPlaces } from '../../__generated__/GetMyPlaces';
 import { Container} from '../logOut/OutHome';
 
@@ -32,7 +33,7 @@ padding: 20px;
 font-size: 1.125rem;
 line-height: 1.75rem;
 display: grid;
-grid-template-columns: repeat(3, 1fr);
+grid-template-columns: repeat(2, 1fr);
 grid-column-gap: 2em;
 grid-row-gap: 1em;
 `
@@ -54,6 +55,11 @@ color: #f1c40f;
 }
 `
 
+const Item = styled.div`
+display: flex;
+justify-content: space-between;
+`
+
 const GET_MY_PLACES = gql`
 query GetMyPlaces{
     GetMyPlaces {
@@ -63,15 +69,38 @@ query GetMyPlaces{
         name
         userId
         address
+        isFav
       }
+      error
+    }
+}
+`
+
+const EDIT_PLACES = gql`
+mutation EditPlace($placeId: Int!, $isFav: Boolean) {
+    EditPlace(placeId: $placeId, isFav: $isFav) {
+      ok
       error
     }
   }
   
 `
+
 export const Places = () => {
-    const {data: userData} = useMe()
-    const {data}= useQuery<GetMyPlaces>(GET_MY_PLACES)
+    const {data}= useQuery<GetMyPlaces>(GET_MY_PLACES);
+    const onCompleted = (data: EditPlace) => {
+        const {EditPlace: {ok, error}} = data;
+        console.log(error)
+    }
+    const [editPlaceMutation, {data: EditPlaceResult}] = useMutation<EditPlace, EditPlaceVariables>(EDIT_PLACES, {onCompleted});
+    const onClick = (placeId: any, isFav: any) => {
+        editPlaceMutation({
+            variables:{
+                placeId,
+                isFav
+            }
+        })
+    }
     return(
         <Container>
             <Helmet><title>{`places | Guader`}</title></Helmet>
@@ -81,7 +110,12 @@ export const Places = () => {
                 <Ul>
                 {data?.GetMyPlaces.places?.map((place) => (        
                         <Items to=''>
-                            <div>Name: {place?.name}</div>
+                            <Item>
+                                Name: {place?.name}
+                                <span onClick={()=>onClick(place?.id, place?.isFav)}>
+                                    {place?.isFav ? "★" : "☆"}
+                                </span>
+                            </Item>
                             <div>Adderss: {place?.address}</div>
                         </Items>
                 ))}

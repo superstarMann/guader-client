@@ -13,6 +13,7 @@ export interface GetMyPlaces_GetMyPlaces_places {
   name: string;
   userId: number;
   address: string;
+  isFav: boolean;
 }
 
 export interface GetMyPlaces_GetMyPlaces {
