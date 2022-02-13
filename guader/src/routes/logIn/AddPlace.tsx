@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { gql, useApolloClient, useMutation } from '@apollo/client';
 import { Helmet } from 'react-helmet-async';
 import styled from 'styled-components';
@@ -12,6 +12,7 @@ import { ErrorComment } from '../../components/ErrorComment';
 import { useNavigate } from 'react-router';
 import { GET_MY_PLACES } from './Places';
 import { useMe } from '../../components/useMe';
+import { Link } from 'react-router-dom';
 
 const ADD_PLACE = gql`
 mutation AddPlace($name: String!, $lat: Float!, $lng: Float!, $address: String!, $isFav: Boolean!) {
@@ -35,6 +36,17 @@ const Contents = styled.div`
   }
 `
 
+const PickUp = styled(Link)`
+padding: 5px 0;
+text-align: left;
+color: #f1c40f;
+text-underline-offset: 3px;
+text-decoration: underline;
+:hover{
+    opacity: 0.5;
+}
+`
+
 interface IProps{
     name: string;
     lat: number;
@@ -47,6 +59,8 @@ export const AddPlaces = () => {
     const client = useApolloClient()
     const history = useNavigate();
     const {data: userData} = useMe()
+    const [Lng, setLng]= useState(0);
+    const [Lat, setLat]= useState(0);
     const {register,getValues, handleSubmit, formState:{errors}} = useForm<IProps>()
     const onCompleted = (data: AddPlace) => {
         const {AddPlace: {ok, error, placeId}} = data;
@@ -85,8 +99,8 @@ export const AddPlaces = () => {
             variables:{
                 name,
                 address,
-                lat: 123,
-                lng: 123,
+                lat: Lat,
+                lng: Lng,
                 isFav: true
             }
         })
@@ -109,7 +123,11 @@ export const AddPlaces = () => {
                         {...register("address")}
                         />
                         <ErrorComment errorMessage={errors.address?.message}/>
+                        {Lat !== 0 && Lng !== 0 ? (
                         <LogInBtn>{loading ? "Loading" : "Add Your Place"}</LogInBtn>
+                        ) : (
+                        <PickUp to="/find-address">Please pick place from map &rarr;</PickUp>
+                        )} 
                         {addPlaceResult?.AddPlace.error && (
                             <ErrorComment errorMessage={addPlaceResult.AddPlace.error}/>
                         )}
