@@ -25,7 +25,7 @@ display: flex;
 
 const Logo = styled.span`
 font-size: 1.4rem;
-margin-right: 10px;
+margin-right: 20px;
 `
 
 const LogoHome = styled(Link)`

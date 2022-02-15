@@ -10,7 +10,22 @@ import { ErrorComment } from '../../components/ErrorComment';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { types } from 'util';
+import styled from 'styled-components';
+
+const SelectOption = styled.select`
+ border: none;
+ margin-bottom: 5px;
+ padding: 7px 10px;
+ border-radius: 0.375rem;
+ box-sizing: border-box;
+ box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+ &:focus{
+     outline:none;
+     border: 1px solid ${props => props.theme.colors.blueColor};
+ }
+ font-size: 1rem;
+ line-height: 1.5rem;
+`
 
 export const CREATE_ACCOUNT_MUTATION = gql`
 mutation EmailSignUp($email: String!, $password: String!, $firstName: String!, $lastName: String!, $age: String!, $phoneNumber: String!, $profilePhoto: String!) {
@@ -37,12 +52,17 @@ type IParams ={
   id: string;
 }
 
+enum Chracters{
+  man = "👨",
+  female = "👩"
+}
+
 export const CreateAccount = () => {
   const {id} = useParams<IParams>()
   console.log(id)
   const history = useNavigate()
   const {register, handleSubmit, formState:{errors}, getValues} = useForm<IProps>({
-    defaultValues: {profilePhoto: "notReady", phoneNumber:`${id}`}
+    defaultValues: {profilePhoto: "🦸‍♂️", phoneNumber:`${id}`}
   })
   const onCompleted = (data: EmailSignUp) => {
     const {EmailSignUp : {ok, error}} = data
@@ -60,7 +80,13 @@ export const CreateAccount = () => {
     } = getValues()
     createAccountMutation({
       variables:{
-        email, password, firstName, lastName, age, phoneNumber, profilePhoto
+        email, 
+        password, 
+        firstName, 
+        lastName, 
+        age, 
+        phoneNumber, 
+        profilePhoto
       }
     })
   }
@@ -110,11 +136,11 @@ export const CreateAccount = () => {
                   {...register("phoneNumber", {required: `phoneNumber is Required`})}
                   />
                   <ErrorComment errorMessage={errors.phoneNumber?.message}/>
-                  <LoginInput
-                  type="text"
-                  placeholder='folder'
-                  {...register("profilePhoto", {required: `profilePhoto is Required`})}
-                  />
+                  <SelectOption {...register("profilePhoto", {required: true})}>
+                    {Object.keys(Chracters).map((character, index) => (
+                      <option key={index}>{character}</option>
+                    ))}
+                  </SelectOption>
                   <ErrorComment errorMessage={errors.profilePhoto?.message}/>
                   <LogInBtn>{loading ? "Loading" : "Create Account"}</LogInBtn>
                   {createAccountResult?.EmailSignUp.error &&  (

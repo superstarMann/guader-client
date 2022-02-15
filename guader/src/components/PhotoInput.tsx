@@ -14,13 +14,15 @@ const Image = styled.label`
   height: 99px;
   width: 99px;
   border: 2px solid black;
+  background-color: white;
   display: block;
   border-radius: 50%;
   margin-bottom: 5px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 28px;
+  padding-left: 23px;
+  justify-content: left;
+  font-size: 50px;
   overflow: hidden;
   & img {
     width: 110px;
@@ -49,8 +51,7 @@ export const PhotoInput:React.FC<IPhotoProps> = ({uploading, fileUrl, onChange})
             <Input id={"photo"} type={"file"} accept='image/*' onChange={onChange}/>
             <Image htmlFor='photo'> 
             {!uploading && data?.GetMyProfile.user?.profilePhoto}
-            {uploading && "⏰"}
-            {!uploading && <img src={fileUrl} />}
+            {uploading && "⏰" && !uploading && <img src={fileUrl} />}
             </Image>
         </Container>
     )
