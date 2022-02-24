@@ -5,7 +5,7 @@ import FindAddressPresenter from "./FindAddressPresenter";
 class FindAddressContainer extends React.Component<any> {
   public mapRef: any;
   public map: google.maps.Map;
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.mapRef = React.createRef();
   }
